@@ -13,6 +13,23 @@ approved quote, without taking the pricing decision away from him.
 
 **Live:** https://gerardmcandrew-oss.github.io/byrne-quote-alpha/
 
+![Gerry's tray on desktop: five commercial jobs waiting on a price, oldest first](docs/tray-desktop.png)
+
+<table>
+  <tr>
+    <td width="33%"><img src="docs/tray-mobile.png" alt="Gerry's tray on a phone"></td>
+    <td width="33%"><img src="docs/pricing-mobile.png" alt="Pricing workspace on a phone, with the sticky approve bar"></td>
+    <td width="34%" valign="top">
+      <strong>Built for Gerry's phone.</strong><br><br>
+      Left: the tray, oldest job first, with days waiting.<br><br>
+      Right: the pricing workspace. The price is the first thing on screen, and approval sits on a sticky bar
+      that always asks for confirmation.
+    </td>
+  </tr>
+</table>
+
+![Office view: demo insights, a clearly labelled estimate, and the jobs to chase for missing information](docs/office-desktop.png)
+
 > Everything in this prototype is fictional. Byrne Building Services, its people, its
 > customers and every figure shown are invented for teaching. No real client data is used.
 > All labour rates, the materials markup and the VAT line are **demonstration assumptions**,
