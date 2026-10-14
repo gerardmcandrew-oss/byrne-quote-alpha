@@ -4,91 +4,676 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#16212E">
-<title>Byrne's | QuoteFlow Alpha</title>
-<meta name="description" content="Internal alpha: commercial quotation workflow for Byrne Building Services. Classroom prototype.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2316212E'/><text x='16' y='23' font-family='Arial' font-size='18' font-weight='bold' fill='%23E8A33D' text-anchor='middle'>B</text></svg>">
+<title>Trayclear | Every finished job priced in days, not weeks</title>
+<meta name="description" content="Trayclear puts every job waiting on a price in one tray on the owner's phone, oldest first. Built for small electrical, plumbing and building firms. You still set every price.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23E09B2D'/><path d='M6 18h5l2 3h6l2-3h5M6 18l3-10h14l3 10v6H6z' fill='none' stroke='%232A1C02' stroke-width='2.2' stroke-linejoin='round'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16212E; --ink-2:#22313F; --ink-3:#2E4154; --ink-soft:#50616F; --muted:#7E8D9A;
+  --paper:#EDF0F3; --card:#FFFFFF; --rule:#DCE3EA;
+  --amber:#E09B2D; --amber-hi:#F2B24A; --amber-ink:#8A5B06; --amber-wash:#FDF3E2;
+  --green:#2E7D5B; --green-wash:#E6F2EC; --red:#B5362B; --red-wash:#FBEDEB;
+  --ui:"Barlow", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --cond:"Barlow Semi Condensed", "Barlow", system-ui, sans-serif;
+  --stripes:repeating-linear-gradient(-45deg, var(--amber) 0 12px, var(--ink) 12px 24px);
+  --shadow:0 1px 2px rgba(22,33,46,.05), 0 10px 30px -10px rgba(22,33,46,.22);
+  --wrap:1120px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; -webkit-text-size-adjust:100%}
+body{
+  margin:0; font-family:var(--ui); font-size:17px; line-height:1.55; color:var(--ink);
+  background:var(--paper); -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:var(--cond); line-height:1.08; margin:0; letter-spacing:-.01em}
+p{margin:0 0 1em}
+a{color:inherit}
+img,svg{display:block}
+.wrap{max-width:var(--wrap); margin:0 auto; padding:0 20px}
+.skip{position:absolute; left:-9999px; top:0; background:var(--ink); color:#fff; padding:10px 16px; z-index:99}
+.skip:focus{left:8px; top:8px}
+:focus-visible{outline:3px solid #2B6CB0; outline-offset:3px; border-radius:6px}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  min-height:54px; padding:0 24px; border-radius:12px; border:1px solid transparent;
+  font:600 17px/1 var(--ui); text-decoration:none; cursor:pointer;
+  transition:transform .08s ease, box-shadow .15s ease, background .15s ease;
+}
+.btn:active{transform:translateY(1px)}
+.btn svg{width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round}
+.btn-amber{
+  background:linear-gradient(180deg, var(--amber-hi), var(--amber)); color:#2A1C02;
+  box-shadow:inset 0 -3px 0 rgba(0,0,0,.14), 0 10px 24px -10px rgba(224,155,45,.9);
+}
+.btn-amber:hover{background:linear-gradient(180deg, #F6BE5E, var(--amber-hi))}
+.btn-ghost{background:rgba(255,255,255,.06); color:#fff; border-color:rgba(255,255,255,.28)}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+.btn-ink{background:var(--ink); color:#fff; box-shadow:0 10px 24px -12px rgba(22,33,46,.9)}
+.btn-ink:hover{background:var(--ink-3)}
+.btn-block{width:100%}
+
+/* ---------- top nav ---------- */
+.top{
+  position:sticky; top:0; z-index:40; background:rgba(22,33,46,.92);
+  backdrop-filter:saturate(1.4) blur(10px); -webkit-backdrop-filter:saturate(1.4) blur(10px);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.top .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:62px}
+.logo{display:flex; align-items:center; gap:10px; color:#fff; text-decoration:none; font:800 21px/1 var(--cond); letter-spacing:.01em}
+.logo-mark{
+  width:36px; height:36px; border-radius:10px; display:grid; place-items:center;
+  background:linear-gradient(145deg, var(--amber-hi), var(--amber));
+  box-shadow:inset 0 -2px 0 rgba(0,0,0,.18);
+}
+.logo-mark svg{width:21px; height:21px; fill:none; stroke:#2A1C02; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round}
+.top .btn{min-height:42px; padding:0 16px; font-size:15px}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative; overflow:hidden; color:#fff; padding:44px 0 0;
+  background:
+    radial-gradient(90% 60% at 100% 0%, rgba(224,155,45,.22), transparent 60%),
+    radial-gradient(70% 50% at 0% 100%, rgba(43,108,176,.25), transparent 60%),
+    linear-gradient(180deg, var(--ink) 0%, #1B2939 100%);
+}
+.hero::before{ /* blueprint grid */
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+  background-size:32px 32px;
+  -webkit-mask-image:linear-gradient(180deg, #000 30%, transparent 95%); mask-image:linear-gradient(180deg, #000 30%, transparent 95%);
+}
+.hero .wrap{position:relative; display:grid; gap:36px}
+.eyebrow{
+  display:inline-flex; align-items:center; gap:8px; margin-bottom:18px;
+  font:700 13px/1 var(--cond); letter-spacing:.12em; text-transform:uppercase; color:var(--amber-hi);
+  background:rgba(224,155,45,.12); border:1px solid rgba(224,155,45,.3); padding:8px 12px; border-radius:30px;
+}
+.eyebrow::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--amber-hi); box-shadow:0 0 0 4px rgba(242,178,74,.2)}
+.hero h1{font-size:clamp(42px, 11vw, 74px); font-weight:800; letter-spacing:-.02em}
+.hero h1 .hl{
+  color:var(--amber-hi); background:linear-gradient(transparent 70%, rgba(224,155,45,.28) 70%);
+  padding:0 .06em;
+}
+.lede{font-size:19px; color:#C7D3DE; margin:18px 0 26px; max-width:34em}
+.lede strong{color:#fff}
+.cta-row{display:flex; flex-direction:column; gap:12px}
+.reassure{display:flex; flex-wrap:wrap; gap:8px 18px; margin:20px 0 0; padding:0; list-style:none; font-size:15px; color:#9FB2C2}
+.reassure li{display:flex; align-items:center; gap:7px}
+.reassure svg{width:17px; height:17px; fill:none; stroke:var(--amber-hi); stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round}
+
+/* phone mock-up, built in CSS from the real app's tray */
+.device{
+  justify-self:center; width:min(330px, 88vw); margin-bottom:-70px;
+  background:#0B121A; border-radius:42px; padding:12px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.08), 0 40px 80px -20px rgba(0,0,0,.6), 0 0 0 9px rgba(255,255,255,.03);
+  transform:rotate(-2deg);
+}
+.screen{background:var(--paper); color:var(--ink); border-radius:32px; overflow:hidden}
+.s-bar{background:var(--ink-2); color:#fff; padding:22px 16px 14px; position:relative}
+.s-bar::after{content:""; position:absolute; left:0; right:0; bottom:0; height:4px; background:var(--stripes)}
+.s-bar small{display:block; font:700 11px/1 var(--cond); letter-spacing:.1em; text-transform:uppercase; color:var(--amber-hi); margin-bottom:5px}
+.s-bar b{font:700 20px/1 var(--cond)}
+.s-body{padding:12px}
+.s-alert{background:var(--red-wash); color:var(--red); border:1px solid #EFC9C4; border-radius:10px; padding:8px 10px; font-size:12.5px; margin-bottom:9px}
+.s-job{
+  position:relative; background:#fff; border:1px solid var(--rule); border-radius:12px;
+  padding:10px 11px 10px 15px; margin-bottom:8px; box-shadow:0 4px 12px -6px rgba(22,33,46,.2);
+}
+.s-job::before{content:""; position:absolute; left:0; top:0; bottom:0; width:4px; border-radius:12px 0 0 12px; background:#C3CDD6}
+.s-job.hot::before{background:var(--stripes)}
+.s-job.pri::before{background:var(--amber)}
+.s-row{display:flex; justify-content:space-between; align-items:center; gap:6px}
+.s-ref{font:700 11px/1 var(--cond); letter-spacing:.08em; color:var(--amber-ink); background:var(--amber-wash); padding:3px 6px; border-radius:5px}
+.s-pill{font:700 10px/1 var(--cond); letter-spacing:.06em; text-transform:uppercase; padding:4px 7px; border-radius:20px; background:#EDF1F4; color:var(--ink-soft)}
+.s-pill.a{background:var(--amber-wash); color:var(--amber-ink)}
+.s-cust{font-weight:600; font-size:14.5px; margin:5px 0 1px}
+.s-meta{font-size:11.5px; color:var(--muted)}
+.s-meta b{color:var(--ink)}
+.s-job.hot .s-meta b{color:var(--red)}
+.s-dock{display:flex; align-items:center; gap:10px; background:#fff; border-top:1px solid var(--rule); padding:10px 12px 16px}
+.s-dock span{font:700 17px/1 var(--cond)}
+.s-dock span small{display:block; font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:2px}
+.s-dock i{flex:1; text-align:center; font-style:normal; font-weight:600; font-size:13.5px; color:#fff; background:var(--green); border-radius:9px; padding:10px 0}
+
+/* hazard tape divider */
+.tape{height:14px; background:var(--stripes); position:relative; z-index:2}
+
+/* ---------- sections ---------- */
+section{padding:72px 0}
+.kicker{font:700 13px/1 var(--cond); letter-spacing:.14em; text-transform:uppercase; color:var(--amber-ink); margin-bottom:12px}
+.h2{font-size:clamp(32px, 7.5vw, 48px); font-weight:800; letter-spacing:-.015em; max-width:18em}
+.sub{color:var(--ink-soft); font-size:18px; margin-top:12px; max-width:36em}
+
+/* numbers */
+.numbers{background:var(--card); padding:110px 0 56px; border-bottom:1px solid var(--rule)}
+.num-grid{display:grid; gap:14px; margin-top:28px}
+.num{
+  position:relative; overflow:hidden; background:var(--paper); border-radius:16px; padding:20px 20px 18px;
+}
+.num::before{content:""; position:absolute; left:0; top:0; right:0; height:4px; background:var(--ink)}
+.num.hot::before{background:var(--stripes)}
+.num b{display:block; font:800 54px/1 var(--cond); letter-spacing:-.02em}
+.num.hot b{color:var(--red)}
+.num span{display:block; color:var(--ink-soft); font-size:15.5px; margin-top:6px}
+.source{font-size:13.5px; color:var(--muted); margin-top:16px}
+
+/* problem: owner's words */
+.quotes{display:grid; gap:16px; margin-top:32px}
+.quote{
+  position:relative; margin:0; background:var(--card); border-radius:18px; padding:28px 22px 22px;
+  box-shadow:var(--shadow); border:1px solid var(--rule);
+}
+.quote::before{
+  content:"\201C"; position:absolute; top:-6px; left:16px;
+  font:800 86px/1 var(--cond); color:var(--amber);
+}
+.quote p{font-size:19px; line-height:1.5; margin:14px 0 16px}
+.quote.lead{background:var(--ink); color:#fff; border-color:var(--ink)}
+.quote.lead p{font-size:22px}
+.quote figcaption{display:flex; align-items:center; gap:11px; font-size:14.5px; color:var(--muted)}
+.quote.lead figcaption{color:#9FB2C2}
+.quote figcaption b{display:block; color:var(--ink); font-weight:600}
+.quote.lead figcaption b{color:#fff}
+.avatar{
+  width:40px; height:40px; border-radius:50%; flex:none; display:grid; place-items:center;
+  font:700 16px/1 var(--cond); background:var(--amber-wash); color:var(--amber-ink);
+}
+.quote.lead .avatar{background:var(--amber); color:#2A1C02}
+
+/* steps */
+.how{background:linear-gradient(180deg, var(--paper), #E4E9EE)}
+.steps{display:grid; gap:16px; margin:34px 0 0; padding:0; list-style:none; counter-reset:step}
+.step{
+  position:relative; background:var(--card); border:1px solid var(--rule); border-radius:18px;
+  padding:24px 22px 22px; box-shadow:var(--shadow);
+}
+.step-n{
+  display:inline-grid; place-items:center; width:46px; height:46px; border-radius:12px; margin-bottom:16px;
+  font:800 22px/1 var(--cond); color:#2A1C02;
+  background:linear-gradient(145deg, var(--amber-hi), var(--amber)); box-shadow:inset 0 -2px 0 rgba(0,0,0,.15);
+}
+.step h3{font-size:25px; font-weight:700; margin-bottom:8px}
+.step p{color:var(--ink-soft); margin:0}
+.step .who{
+  display:inline-block; margin-top:14px; font:700 12px/1 var(--cond); letter-spacing:.08em; text-transform:uppercase;
+  color:var(--ink-soft); background:#EDF1F4; padding:6px 10px; border-radius:20px;
+}
+
+/* control band */
+.control{background:var(--ink); color:#fff; position:relative; overflow:hidden}
+.control::after{content:""; position:absolute; left:0; right:0; top:0; height:6px; background:var(--stripes)}
+.control .h2{color:#fff}
+.control .sub{color:#C7D3DE}
+.ticks{display:grid; gap:12px; margin:30px 0 0; padding:0; list-style:none}
+.ticks li{
+  display:flex; gap:14px; align-items:flex-start; background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:16px 18px; font-size:16.5px; color:#DCE5ED;
+}
+.ticks li b{color:#fff}
+.ticks svg{flex:none; width:26px; height:26px; padding:5px; border-radius:50%; background:var(--amber); fill:none; stroke:#2A1C02; stroke-width:3; stroke-linecap:round; stroke-linejoin:round}
+.demo-cta{margin-top:30px; display:flex; flex-direction:column; gap:10px; align-items:flex-start}
+.demo-cta small{color:#9FB2C2; font-size:14px}
+
+/* price */
+.price-wrap{display:grid; gap:20px; margin-top:32px; align-items:start}
+.price{
+  position:relative; background:var(--card); border-radius:22px; padding:30px 24px 26px;
+  border:2px solid var(--ink); box-shadow:0 30px 60px -30px rgba(22,33,46,.45);
+}
+.badge{
+  position:absolute; top:-15px; left:24px; font:700 12.5px/1 var(--cond); letter-spacing:.1em; text-transform:uppercase;
+  background:var(--amber); color:#2A1C02; padding:8px 12px; border-radius:30px;
+}
+.price-name{font:700 22px/1 var(--cond)}
+.amount{display:flex; align-items:flex-start; gap:4px; margin:16px 0 4px}
+.amount .cur{font:700 30px/1.3 var(--cond)}
+.amount .val{font:800 86px/1 var(--cond); letter-spacing:-.03em}
+.amount .per{align-self:flex-end; font-size:17px; color:var(--ink-soft); padding-bottom:12px}
+.price .vat{font-size:14px; color:var(--muted); margin-bottom:22px}
+.incl{list-style:none; margin:0 0 26px; padding:0}
+.incl li{display:flex; gap:11px; align-items:flex-start; padding:9px 0; border-top:1px dashed var(--rule); font-size:16px}
+.incl li:first-child{border-top:0}
+.incl svg{flex:none; margin-top:3px; width:19px; height:19px; fill:none; stroke:var(--green); stroke-width:2.8; stroke-linecap:round; stroke-linejoin:round}
+.side-note{background:var(--amber-wash); border:1px solid #EFD9AE; border-radius:16px; padding:20px 22px; color:var(--amber-ink); font-size:16px}
+.side-note h3{font-size:20px; color:var(--ink); margin-bottom:8px}
+.side-note p:last-child{margin:0}
+
+/* waitlist */
+.waitlist{background:var(--card); border-top:1px solid var(--rule)}
+.form-card{
+  margin-top:28px; background:var(--paper); border-radius:20px; padding:24px 20px;
+  border:1px solid var(--rule);
+}
+.field{margin-bottom:16px}
+.field label{display:block; font-weight:600; font-size:15px; margin-bottom:6px}
+.field .opt{font-weight:400; color:var(--muted)}
+.field input, .field select{
+  width:100%; min-height:54px; padding:0 15px; font:inherit; font-size:17px; color:var(--ink);
+  background:#fff; border:1.5px solid var(--rule); border-radius:12px; -webkit-appearance:none; appearance:none;
+}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 8l5 5 5-5' fill='none' stroke='%2350616F' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; background-size:18px; padding-right:42px}
+.field input:focus, .field select:focus{outline:none; border-color:var(--amber); box-shadow:0 0 0 4px rgba(224,155,45,.22)}
+.field input[aria-invalid="true"]{border-color:var(--red); background:#FFFAF9}
+.err{color:var(--red); font-size:14px; font-weight:600; margin-top:6px}
+.privacy{font-size:14px; color:var(--muted); margin:14px 0 0; display:flex; gap:8px; align-items:flex-start}
+.privacy svg{flex:none; margin-top:2px; width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
+.thanks{text-align:center; padding:12px 4px 4px}
+.thanks .tick{
+  width:68px; height:68px; margin:0 auto 16px; border-radius:50%; display:grid; place-items:center;
+  background:var(--green); box-shadow:0 0 0 10px var(--green-wash); animation:pop .35s cubic-bezier(.2,.9,.3,1.4);
+}
+.thanks .tick svg{width:32px; height:32px; fill:none; stroke:#fff; stroke-width:3.2; stroke-linecap:round; stroke-linejoin:round}
+.thanks h3{font-size:30px; margin-bottom:8px}
+.thanks p{color:var(--ink-soft)}
+@keyframes pop{from{transform:scale(.6); opacity:0} to{transform:none; opacity:1}}
+
+/* faq */
+.faq{margin-top:28px; display:grid; gap:10px}
+.faq details{background:var(--card); border:1px solid var(--rule); border-radius:14px; padding:0 18px}
+.faq summary{
+  cursor:pointer; list-style:none; padding:17px 30px 17px 0; position:relative; font-weight:600; font-size:17px;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+"; position:absolute; right:0; top:12px; font:600 26px/1 var(--ui); color:var(--amber-ink); transition:transform .2s ease}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{color:var(--ink-soft); margin:0 0 18px}
+
+/* footer */
+footer{background:var(--ink); color:#9FB2C2; font-size:14.5px; padding:40px 0 calc(110px + env(safe-area-inset-bottom))}
+footer .logo{margin-bottom:14px}
+footer p{max-width:46em}
+footer a{color:#fff}
+
+/* sticky phone CTA */
+.dock{
+  position:fixed; left:12px; right:12px; bottom:calc(12px + env(safe-area-inset-bottom)); z-index:50;
+  display:flex; gap:8px; padding:8px; border-radius:18px;
+  background:rgba(22,33,46,.94); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  box-shadow:0 18px 40px -12px rgba(0,0,0,.55);
+  transform:translateY(140%); transition:transform .25s ease;
+}
+.dock.show{transform:none}
+.dock .btn{flex:1; min-height:48px; padding:0 12px; font-size:15.5px}
+
+/* reveal on scroll */
+.reveal{opacity:0; transform:translateY(16px); transition:opacity .5s ease, transform .5s ease}
+.reveal.in{opacity:1; transform:none}
+
+/* ---------- wider screens ---------- */
+@media (min-width:640px){
+  .cta-row{flex-direction:row}
+  .num-grid{grid-template-columns:repeat(3,1fr)}
+  .form-card{padding:30px}
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:0 16px}
+}
+@media (min-width:900px){
+  body{font-size:18px}
+  section{padding:100px 0}
+  .hero{padding-top:72px}
+  .hero .wrap{grid-template-columns:1.15fr .85fr; align-items:center; gap:40px}
+  .device{margin-bottom:-90px}
+  .quotes{grid-template-columns:repeat(2,1fr)}
+  .quote.lead{grid-row:span 2; display:flex; flex-direction:column; justify-content:center; padding:40px 34px}
+  .quote.lead p{font-size:27px}
+  .steps{grid-template-columns:repeat(3,1fr)}
+  .control .wrap{display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center}
+  .ticks{margin-top:0}
+  .price-wrap{grid-template-columns:1.1fr .9fr; gap:28px}
+  .wl-grid{display:grid; grid-template-columns:.9fr 1.1fr; gap:48px; align-items:start}
+  .form-card{margin-top:0}
+  .dock{display:none}
+  footer{padding-bottom:48px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none !important; animation:none !important}
+  .reveal{opacity:1; transform:none}
+}
+[hidden]{display:none !important}
+</style>
 </head>
 <body>
-
 <a class="skip" href="#main">Skip to main content</a>
 
-<!-- ============ DEMO BANNER ============ -->
-<div class="demo-strip" role="note">
-  <span class="dot"></span>
-  <strong>Internal alpha</strong>
-  <span class="sep">·</span>
-  <span>Fictional demo data</span>
-  <span class="sep">·</span>
-  <span>Demo date <time datetime="2026-09-18">Fri 18 Sep 2026</time></span>
-</div>
-
-<!-- ============ CHALLENGE BAR ============ -->
-<div id="challengeBar" class="challenge-bar" hidden role="timer" aria-live="off">
-  <div class="cb-left">
-    <span class="cb-label">2-Minute Challenge</span>
-    <span class="cb-hint" id="cbHint">Price this job and approve it.</span>
-  </div>
-  <div class="cb-right">
-    <span class="cb-clock" id="cbClock">2:00</span>
-    <button type="button" class="cb-quit" id="cbQuit">Stop</button>
-  </div>
-</div>
-
-<header class="topbar">
-  <div class="brand">
-    <span class="mark" aria-hidden="true">B</span>
-    <span class="brand-text">
-      <strong>Byrne Building Services</strong>
-      <span>QuoteFlow <em>Alpha</em></span>
-    </span>
-  </div>
-  <div class="topbar-actions">
-    <button type="button" class="btn btn-accent" id="startChallenge">Start Gerry's 2-Minute Challenge</button>
-    <button type="button" class="btn btn-ghost" id="resetDemo">Reset demo</button>
+<!-- ============ NAV ============ -->
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Trayclear home">
+      <span class="logo-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 14h4l2 3h6l2-3h4M3 14l2.5-8h13L21 14v5H3z"/><path d="M9 9.5l2 2 4-4"/></svg></span>
+      Trayclear
+    </a>
+    <a class="btn btn-amber" href="app.html">Try the demo</a>
   </div>
 </header>
 
-<div class="shell">
+<main id="main">
 
-  <!-- ============ SIDE NAV (desktop) / BOTTOM NAV (mobile) ============ -->
-  <nav class="nav" aria-label="Main">
-    <a href="#/tray" data-route="tray" class="nav-item">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 14h4l2 3h6l2-3h4M3 14l2.5-8h13L21 14v5H3z"/></svg>
-      <span>Gerry's tray</span><span class="nav-badge" id="badgeTray">0</span>
-    </a>
-    <a href="#/intake" data-route="intake" class="nav-item">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-      <span>New job</span>
-    </a>
-    <a href="#/office" data-route="office" class="nav-item">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V9l8-5 8 5v11M9 20v-6h6v6"/></svg>
-      <span>Office</span><span class="nav-badge warn" id="badgeOffice">0</span>
-    </a>
-    <a href="#/history" data-route="history" class="nav-item">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4M12 7v5l3 2"/></svg>
-      <span>History</span>
-    </a>
-  </nav>
+<!-- ============ HERO ============ -->
+<section class="hero" id="top" aria-labelledby="h-hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">For small trades firms</span>
+      <h1 id="h-hero">Every finished job priced in <span class="hl">days</span>, not weeks.</h1>
+      <p class="lede">Trayclear puts every job sheet that is waiting on a price into one tray on your phone, oldest first.
+        You price it in two minutes, the office sends it out, and you get paid sooner.
+        <strong>You still set every price.</strong></p>
+      <div class="cta-row">
+        <a class="btn btn-amber" href="app.html">
+          Try the demo
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#waitlist">Join the waiting list</a>
+      </div>
+      <ul class="reassure">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>No app to install</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>No automatic pricing</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Works on any phone</li>
+      </ul>
+    </div>
 
-  <main id="main" class="main"><!-- views render here --></main>
-
-</div>
-
-<!-- ============ RESULT DIALOG ============ -->
-<div class="overlay" id="overlay" hidden>
-  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlgTitle" id="dialog">
-    <h2 id="dlgTitle">Result</h2>
-    <div id="dlgBody"></div>
-    <div class="dlg-actions" id="dlgActions"></div>
+    <!-- CSS mock-up of the demo's tray screen -->
+    <div class="device" aria-hidden="true">
+      <div class="screen">
+        <div class="s-bar"><small>Waiting on your price</small><b>Your tray · 5 jobs</b></div>
+        <div class="s-body">
+          <div class="s-alert"><b>Kildare Farm Foods</b> has waited <b>35 days</b>.</div>
+          <div class="s-job hot">
+            <div class="s-row"><span class="s-ref">0641</span><span class="s-pill a">Priority</span></div>
+            <div class="s-cust">Kildare Farm Foods</div>
+            <div class="s-meta">Waiting <b>35 days</b> · Est. <b>€7,628</b></div>
+          </div>
+          <div class="s-job">
+            <div class="s-row"><span class="s-ref">0716</span><span class="s-pill">Standard</span></div>
+            <div class="s-cust">Scoil Bhríde</div>
+            <div class="s-meta">Waiting <b>11 days</b> · Est. <b>€3,082</b></div>
+          </div>
+          <div class="s-job pri">
+            <div class="s-row"><span class="s-ref">0726</span><span class="s-pill a">Priority</span></div>
+            <div class="s-cust">Lidl Newhall</div>
+            <div class="s-meta">Waiting <b>7 days</b> · Est. <b>€8,391</b></div>
+          </div>
+        </div>
+        <div class="s-dock"><span><small>Total inc VAT</small>€8,658</span><i>Approve this price</i></div>
+      </div>
+    </div>
   </div>
+</section>
+<div class="tape" aria-hidden="true"></div>
+
+<!-- ============ NUMBERS ============ -->
+<section class="numbers" aria-labelledby="h-num">
+  <div class="wrap">
+    <p class="kicker">The cost of a full tray</p>
+    <h2 class="h2" id="h-num">The work is done. The money is stuck in a pile of paper.</h2>
+    <div class="num-grid">
+      <div class="num hot reveal"><b>34 days</b><span>one finished job sat waiting for a price</span></div>
+      <div class="num reveal"><b>40 days</b><span>from the job being done to the invoice going out</span></div>
+      <div class="num reveal"><b>5 a month</b><span>job sheets that never come back to the office at all</span></div>
+    </div>
+    <p class="source">Figures from the Byrne Building Services case study, a fictional firm used for teaching.</p>
+  </div>
+</section>
+
+<!-- ============ PROBLEM ============ -->
+<section aria-labelledby="h-prob">
+  <div class="wrap">
+    <p class="kicker">Sound familiar?</p>
+    <h2 class="h2" id="h-prob">In the owner's own words</h2>
+    <div class="quotes">
+      <figure class="quote lead reveal">
+        <p>The lads finish the job, the sheet lands in my tray, and then it sits. I price on a Sunday night if I'm lucky.
+          By the time the invoice goes out I'm chasing my own money. And I won't hand pricing to a computer.
+          I know which jobs are worth what.</p>
+        <figcaption><span class="avatar" aria-hidden="true">G</span><span><b>Gerry, owner</b>Building services firm, Co. Kildare</span></figcaption>
+      </figure>
+      <figure class="quote reveal">
+        <p>Half the sheets come back with the materials column blank. My mornings go on chasing the lads for receipts.</p>
+        <figcaption><span class="avatar" aria-hidden="true">S</span><span><b>Sandra, office manager</b>Same firm</span></figcaption>
+      </figure>
+      <figure class="quote reveal">
+        <p>We tried an app in January. Eleven taps to close one job, and nobody showed us how. We were back on paper in a fortnight.</p>
+        <figcaption><span class="avatar" aria-hidden="true">T</span><span><b>Tony, electrician</b>Same firm</span></figcaption>
+      </figure>
+    </div>
+    <p class="source">Characters from the fictional Byrne case study, paraphrased.</p>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="how" id="how" aria-labelledby="h-how">
+  <div class="wrap">
+    <p class="kicker">How it works</p>
+    <h2 class="h2" id="h-how">Three steps from finished job to sent quote</h2>
+    <ol class="steps">
+      <li class="step reveal">
+        <span class="step-n" aria-hidden="true">1</span>
+        <h3>The sheet goes in the tray</h3>
+        <p>The office types in the job sheet. If the materials or hours are missing, it still goes in, flagged so the office can chase it.</p>
+        <span class="who">Office · about 1 minute</span>
+      </li>
+      <li class="step reveal">
+        <span class="step-n" aria-hidden="true">2</span>
+        <h3>You price it on your phone</h3>
+        <p>Oldest job first. Materials, labour and VAT add up as you go. Don't agree with the sum? Type your own price and say why.</p>
+        <span class="who">Owner · under 2 minutes</span>
+      </li>
+      <li class="step reveal">
+        <span class="step-n" aria-hidden="true">3</span>
+        <h3>Approve, and the office sends it</h3>
+        <p>One clear approve button with a confirm. Nothing reaches the customer until the office sends it, and every step is logged.</p>
+        <span class="who">Office · same day</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ CONTROL + DEMO ============ -->
+<section class="control" aria-labelledby="h-ctrl">
+  <div class="wrap">
+    <div>
+      <p class="kicker" style="color:var(--amber-hi)">Your prices, your call</p>
+      <h2 class="h2" id="h-ctrl">It does the sums. You make the decision.</h2>
+      <p class="sub">Trayclear never prices, approves or sends anything by itself. It just gets the right job in front of you at the right time.</p>
+      <div class="demo-cta">
+        <a class="btn btn-amber" href="app.html">
+          Try the demo
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <small>Opens with nine sample jobs. Try the 2-minute challenge.</small>
+      </div>
+    </div>
+    <ul class="ticks">
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span><b>No automatic pricing.</b> The calculated figure is a starting point, never the answer.</span></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span><b>Override with a reason.</b> Old wiring on a farm job? Set a fair price and note why.</span></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span><b>Approved means locked.</b> The office can't change a price you've signed off.</span></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span><b>Fewer taps than paper.</b> One tap opens a job, one tap approves it.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ PRICE ============ -->
+<section id="price" aria-labelledby="h-price">
+  <div class="wrap">
+    <p class="kicker">Pricing</p>
+    <h2 class="h2" id="h-price">One price for the whole firm</h2>
+    <div class="price-wrap">
+      <div class="price reveal">
+        <span class="badge">Founding price</span>
+        <div class="price-name">Trayclear for small firms</div>
+        <div class="amount" aria-label="29 euro per month">
+          <span class="cur">€</span><span class="val">29</span><span class="per">/ month</span>
+        </div>
+        <p class="vat">Plus VAT. Per firm, not per person. Cancel any time.</p>
+        <ul class="incl">
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Owner, office and up to 10 people in the field</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Unlimited jobs and quotes</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Your own labour rates, markup and VAT</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>An hour of setup and training with your team</li>
+        </ul>
+        <a class="btn btn-ink btn-block" href="#waitlist">Join the waiting list</a>
+      </div>
+      <div class="side-note reveal">
+        <h3>Why €29?</h3>
+        <p>One commercial job priced a month earlier pays for years of Trayclear. At 40 days from finished job to invoice, the money is already yours. It's just stuck in a tray.</p>
+        <p>Trayclear is not on sale yet. Join the waiting list and we'll hold the founding price for you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WAITLIST ============ -->
+<section class="waitlist" id="waitlist" aria-labelledby="h-wl">
+  <div class="wrap wl-grid">
+    <div>
+      <p class="kicker">Waiting list</p>
+      <h2 class="h2" id="h-wl">Be first to clear your tray</h2>
+      <p class="sub">We're opening Trayclear to a small group of firms first. Leave your details and we'll be in touch.</p>
+    </div>
+
+    <div class="form-card">
+      <form id="wlForm" novalidate>
+        <div class="form-row">
+          <div class="field">
+            <label for="wlName">Your name</label>
+            <input id="wlName" name="name" type="text" autocomplete="name" required aria-describedby="wlNameErr">
+            <div class="err" id="wlNameErr" hidden>Please enter your name.</div>
+          </div>
+          <div class="field">
+            <label for="wlFirm">Firm name <span class="opt">(optional)</span></label>
+            <input id="wlFirm" name="firm" type="text" autocomplete="organization">
+          </div>
+        </div>
+        <div class="field">
+          <label for="wlEmail">Email</label>
+          <input id="wlEmail" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="wlEmailErr">
+          <div class="err" id="wlEmailErr" hidden>Please enter a valid email address.</div>
+        </div>
+        <div class="field">
+          <label for="wlTrade">Your trade</label>
+          <select id="wlTrade" name="trade">
+            <option>Electrical</option>
+            <option>Plumbing and heating</option>
+            <option>General building</option>
+            <option>Mixed trades</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <button class="btn btn-amber btn-block" type="submit">Join the waiting list</button>
+        <p class="privacy">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+          This is a prototype. Nothing you type here is sent or stored anywhere.
+        </p>
+      </form>
+
+      <div class="thanks" id="wlThanks" hidden tabindex="-1">
+        <div class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></div>
+        <h3>Thanks, <span id="wlThanksName">you're on the list</span>!</h3>
+        <p>We'll be in touch before Trayclear opens. While you wait, see how fast you can clear the demo tray.</p>
+        <a class="btn btn-ink" href="app.html">Try the demo</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="faq">
+      <details>
+        <summary>Does Trayclear set my prices?</summary>
+        <p>No. It adds up what's on the job sheet and shows you a starting figure. You can accept it, change any line, or type your own price. Nothing is approved or sent without you.</p>
+      </details>
+      <details>
+        <summary>Do my lads need to learn a new app?</summary>
+        <p>Not to start. The office types in the paper sheets as they come back. Capturing hours and materials on site is planned next, kept to as few taps as possible.</p>
+      </details>
+      <details>
+        <summary>Is the demo real?</summary>
+        <p>The demo works fully, but the firm, the customers and every figure in it are made up. It saves only in your own browser, and "Reset demo" puts everything back.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="#top"><span class="logo-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 14h4l2 3h6l2-3h4M3 14l2.5-8h13L21 14v5H3z"/><path d="M9 9.5l2 2 4-4"/></svg></span>Trayclear</a>
+    <p>Trayclear is a made-up product, created for a Technology for Business exercise at National College of Ireland.
+      Byrne Building Services, its people, its customers and every figure on this page are fictional.
+      The price shown is a proposal, not an offer.</p>
+    <p><a href="app.html">Open the demo</a></p>
+  </div>
+</footer>
+
+<!-- sticky phone CTA -->
+<div class="dock" id="dock" aria-hidden="true">
+  <a class="btn btn-amber" href="app.html" tabindex="-1">Try the demo</a>
+  <a class="btn btn-ghost" href="#waitlist" tabindex="-1">Waiting list</a>
 </div>
 
-<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script>
+(function () {
+  "use strict";
 
-<script src="app.js"></script>
+  /* ---- waiting list: validates, then shows a thank-you. Sends nothing. ---- */
+  var form = document.getElementById("wlForm");
+  var thanks = document.getElementById("wlThanks");
+  var name = document.getElementById("wlName");
+  var email = document.getElementById("wlEmail");
+
+  function setError(input, errId, bad) {
+    input.setAttribute("aria-invalid", bad ? "true" : "false");
+    document.getElementById(errId).hidden = !bad;
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();                       // no request is ever made
+    var nameBad = name.value.trim() === "";
+    var emailBad = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
+    setError(name, "wlNameErr", nameBad);
+    setError(email, "wlEmailErr", emailBad);
+    if (nameBad) { name.focus(); return; }
+    if (emailBad) { email.focus(); return; }
+
+    var first = name.value.trim().split(/\s+/)[0];
+    document.getElementById("wlThanksName").textContent = first;
+    form.reset();                             // clear what was typed
+    form.hidden = true;
+    thanks.hidden = false;
+    thanks.focus();
+  });
+
+  /* ---- reveal sections as they scroll in ---- */
+  var items = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.15 });
+    items.forEach(function (el) { io.observe(el); });
+  } else {
+    items.forEach(function (el) { el.classList.add("in"); });
+  }
+
+  /* ---- phone dock: appears after the hero, hides at the waiting list ---- */
+  var dock = document.getElementById("dock");
+  var hero = document.querySelector(".hero");
+  var wl = document.getElementById("waitlist");
+  function onScroll() {
+    var pastHero = hero.getBoundingClientRect().bottom < 0;
+    var atList = wl.getBoundingClientRect().top < window.innerHeight * 0.8;
+    dock.classList.toggle("show", pastHero && !atList);
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+})();
+</script>
 </body>
 </html>

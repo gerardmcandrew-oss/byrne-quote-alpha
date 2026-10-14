@@ -412,3 +412,132 @@ input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="
 @media print{
   .nav,.topbar,.demo-strip,.challenge-bar,.toast{display:none}
 }
+
+/* ============================================================
+   VISUAL REFRESH (Trayclear)
+   Same docket-book language, turned up: site-hoarding stripes,
+   a faint blueprint grid, coloured docket edges and more depth.
+   ============================================================ */
+:root{
+  --r:14px;
+  --amber-hi:#F2B24A;
+  --shadow:0 1px 2px rgba(22,33,46,.05), 0 6px 20px -6px rgba(22,33,46,.14);
+  --shadow-lift:0 2px 4px rgba(22,33,46,.06), 0 16px 32px -10px rgba(22,33,46,.28);
+  --stripes:repeating-linear-gradient(-45deg, var(--amber) 0 10px, var(--ink) 10px 20px);
+}
+
+body{
+  background-color:var(--paper);
+  background-image:
+    linear-gradient(rgba(43,108,176,.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(43,108,176,.045) 1px, transparent 1px);
+  background-size:28px 28px;
+}
+
+/* demo strip + link home */
+.demo-strip{background:#0F1822}
+.strip-link{margin-left:auto; color:#fff; text-decoration:none; font-weight:600; opacity:.85}
+.strip-link:hover{opacity:1; text-decoration:underline; text-underline-offset:3px}
+
+/* topbar with a hazard-tape edge */
+.topbar{
+  position:relative;
+  background:
+    radial-gradient(120% 140% at 100% 0%, rgba(224,155,45,.16), transparent 55%),
+    linear-gradient(180deg, #24364A, var(--ink-2));
+  padding:14px 16px 17px;
+}
+.topbar::after{content:""; position:absolute; left:0; right:0; bottom:0; height:5px; background:var(--stripes)}
+a.brand{color:inherit; text-decoration:none}
+.mark{
+  width:40px; height:40px; border-radius:11px;
+  background:linear-gradient(145deg, var(--amber-hi), var(--amber));
+  box-shadow:inset 0 -2px 0 rgba(0,0,0,.18), 0 4px 12px rgba(224,155,45,.35);
+}
+.mark svg{width:23px; height:23px; fill:none; stroke:#2A1C02; stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
+.brand-text strong{font-size:16px}
+
+/* buttons */
+.btn{border-radius:10px; transition:background .15s ease, box-shadow .15s ease, transform .08s ease, border-color .15s ease}
+.btn-accent{
+  background:linear-gradient(180deg, var(--amber-hi), var(--amber));
+  box-shadow:inset 0 -2px 0 rgba(0,0,0,.14), 0 6px 16px -6px rgba(224,155,45,.7);
+}
+.btn-accent:hover{background:linear-gradient(180deg, #F6BE5E, var(--amber-hi))}
+.btn-approve{
+  background:linear-gradient(180deg, #379469, var(--green));
+  box-shadow:inset 0 -2px 0 rgba(0,0,0,.16), 0 8px 20px -8px rgba(46,125,91,.8);
+  border-radius:12px; letter-spacing:.01em;
+}
+.btn-approve:hover{background:linear-gradient(180deg, #3FA376, #34896A)}
+.btn-primary{border-radius:10px; box-shadow:0 6px 16px -8px rgba(22,33,46,.6)}
+
+/* page heads */
+.page-head{margin-bottom:18px}
+.page-head h1{
+  font-family:var(--cond); font-weight:700; font-size:28px; letter-spacing:-.005em;
+  display:inline-block; padding-bottom:6px;
+  background:linear-gradient(var(--amber), var(--amber)) left bottom / 44px 4px no-repeat;
+}
+
+/* docket cards: coloured left edge, lift on hover */
+.job{
+  position:relative; overflow:hidden; border-radius:var(--r);
+  padding:15px 16px 14px 20px; border-color:#DCE3EA;
+  transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+}
+.job::before{content:""; position:absolute; left:0; top:0; bottom:0; width:5px; background:#C3CDD6}
+.job[data-urgency="priority"]::before{background:var(--amber)}
+.job[data-urgency="urgent"]::before{background:var(--red)}
+.job.is-hot::before{background:var(--stripes)}
+.job:hover{transform:translateY(-2px); box-shadow:var(--shadow-lift); border-color:#C7D2DC}
+.job:active{transform:translateY(0)}
+.job-ref{border-radius:6px; padding:3px 8px; box-shadow:inset 0 0 0 1px #F0DDB8}
+.job-cust{font-size:18px}
+.job-meta{border-top-style:dashed}
+
+/* pills */
+.pill{padding:4px 9px; box-shadow:inset 0 0 0 1px rgba(0,0,0,.04)}
+
+/* cards and stats */
+.card{border-color:#DCE3EA}
+.stat{
+  position:relative; overflow:hidden; border-color:#DCE3EA; box-shadow:var(--shadow);
+  padding:15px 16px;
+}
+.stat::after{content:""; position:absolute; left:0; right:0; top:0; height:4px; background:var(--ink)}
+.stat.hot::after{background:var(--stripes)}
+.stat .v{font-family:var(--cond); font-size:34px; letter-spacing:-.01em}
+
+.assumption, .override{border-radius:var(--r)}
+.override{border-left:5px solid var(--amber)}
+
+/* totals: make the number the hero */
+.trow.grand .val{font-family:var(--cond); font-size:36px}
+
+/* pipeline as a progress track */
+.pipe-step{border-radius:20px; padding:6px 11px}
+.pipe-step.now{box-shadow:0 0 0 3px rgba(224,155,45,.25)}
+
+/* nav */
+.nav{backdrop-filter:saturate(1.4) blur(10px); background:rgba(255,255,255,.92)}
+.nav-item[aria-current="page"]{background:linear-gradient(180deg, var(--amber-wash), #FBEBCF)}
+@media (min-width:860px){
+  .nav{background:transparent; backdrop-filter:none}
+  .nav-item{transition:background .15s ease}
+  .nav-item:hover{background:rgba(255,255,255,.7)}
+  .nav-item[aria-current="page"]{box-shadow:inset 4px 0 0 var(--amber); background:#fff}
+  .page-head h1{font-size:34px}
+}
+
+/* challenge bar */
+.challenge-bar{background:linear-gradient(90deg, var(--amber), var(--amber-hi))}
+.cb-clock{font-family:var(--cond); font-size:30px}
+
+/* dialog + toast */
+.overlay{backdrop-filter:blur(3px)}
+.dialog{border-radius:18px; border-top:6px solid var(--amber); animation:pop .22s cubic-bezier(.2,.9,.3,1.2)}
+.dialog .big{font-family:var(--cond)}
+.toast{border-radius:12px; border-left:4px solid var(--amber); animation:rise .2s ease-out}
+@keyframes pop{from{opacity:0; transform:translateY(8px) scale(.97)} to{opacity:1; transform:none}}
+@keyframes rise{from{opacity:0; transform:translate(-50%, 8px)} to{opacity:1; transform:translate(-50%, 0)}}

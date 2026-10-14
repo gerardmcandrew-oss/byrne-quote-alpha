@@ -1,17 +1,39 @@
-# Byrne's | QuoteFlow Alpha
+# Trayclear: every finished job priced in days, not weeks
 
 [![Deploy to GitHub Pages](https://github.com/gerardmcandrew-oss/gerardmcandrew-oss.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/gerardmcandrew-oss/gerardmcandrew-oss.github.io/actions/workflows/deploy.yml)
 ![Status: alpha](https://img.shields.io/badge/status-alpha-E09B2D)
 ![No build step](https://img.shields.io/badge/build-none%20required-16212E)
 ![Vanilla JS](https://img.shields.io/badge/stack-HTML%20%C2%B7%20CSS%20%C2%B7%20JS-2B6CB0)
 
-An internal alpha for **Byrne Building Services**, built for a Technology for Business
-classroom exercise at National College of Ireland.
+**Trayclear** (a made-up product name) is a quoting workflow for small trades firms. It started
+as an internal alpha for **Byrne Building Services**, built for a Technology for Business
+classroom exercise at National College of Ireland, and is now pitched to any small electrical,
+plumbing or building firm.
 
-It does one thing: it gets a commercial job out of Gerry's tray and into a priced,
-approved quote, without taking the pricing decision away from him.
+It does one thing: it gets a finished job out of the owner's tray and into a priced,
+approved quote, without taking the pricing decision away from them.
 
-**Live:** https://gerardmcandrew-oss.github.io/
+| | Link |
+|---|---|
+| **Landing page** | https://gerardmcandrew-oss.github.io/ |
+| **Live demo** | https://gerardmcandrew-oss.github.io/app.html |
+
+![Trayclear landing page: headline, demo button and a phone showing the tray](docs/landing-desktop.png)
+
+## The landing page
+
+[`index.html`](index.html) is one self-contained file (HTML, CSS and JavaScript inline), designed
+phone-first. It has:
+
+- a headline with one promise: *every finished job priced in days, not weeks*
+- the problem in the owner's own words, paraphrased from the case characters
+- how it works in three steps
+- **Try the demo** buttons that open [`app.html`](app.html)
+- a monthly price (€29 a month per firm, a proposal, not an offer)
+- a **Join the waiting list** form that **sends no data**. It checks the fields, clears them,
+  and shows a thank-you message. There is no form `action`, no `fetch` and no storage.
+
+## The demo app
 
 ![Gerry's tray on desktop: five commercial jobs waiting on a price, oldest first](docs/tray-desktop.png)
 
@@ -20,7 +42,7 @@ approved quote, without taking the pricing decision away from him.
     <td width="33%"><img src="docs/tray-mobile.png" alt="Gerry's tray on a phone"></td>
     <td width="33%"><img src="docs/pricing-mobile.png" alt="Pricing workspace on a phone, with the sticky approve bar"></td>
     <td width="34%" valign="top">
-      <strong>Built for Gerry's phone.</strong><br><br>
+      <strong>Built for the owner's phone.</strong><br><br>
       Left: the tray, oldest job first, with days waiting.<br><br>
       Right: the pricing workspace. The price is the first thing on screen, and approval sits on a sticky bar
       that always asks for confirmation.
@@ -133,14 +155,26 @@ No build step, no dependencies, no API keys.
 git clone https://github.com/gerardmcandrew-oss/gerardmcandrew-oss.github.io.git
 cd gerardmcandrew-oss.github.io
 python3 -m http.server 8000
-# open http://localhost:8000
+# landing page: http://localhost:8000
+# demo app:     http://localhost:8000/app.html
 ```
 
-Opening `index.html` directly from the file system works too.
+Opening `index.html` or `app.html` directly from the file system works too.
+
+### Files
+
+| File | What it is |
+|---|---|
+| `index.html` | Landing page. Self-contained. |
+| `app.html` | The demo app shell |
+| `app.js` | Demo app logic and the fictional data |
+| `styles.css` | Demo app styles |
+| `docs/` | Screenshots for this README |
+| `.github/workflows/deploy.yml` | Publishes the site to GitHub Pages on every push to `main` |
 
 ### Demo script, about 90 seconds
 
-1. Open the site on a phone. **Gerry's tray** shows five jobs, oldest first. Kildare Farm
+1. Open the landing page on a phone and tap **Try the demo**. **Gerry's tray** shows five jobs, oldest first. Kildare Farm
    Foods has been waiting 35 days.
 2. Press **Start Gerry's 2-Minute Challenge**. The clock starts and the job opens.
 3. The price is the first thing on screen: €7,628.30 ex VAT, €8,658.12 total.

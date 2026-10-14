@@ -1,5 +1,5 @@
 /* ============================================================
-   Byrne's | QuoteFlow Alpha
+   Trayclear demo, Byrne Building Services
    Classroom prototype. No backend, no API keys, no AI service.
    All data is fictional. All rates are demonstration assumptions.
    ============================================================ */
@@ -453,6 +453,8 @@
     var hot = waited >= 21;
     var b = el("button", "job");
     b.type = "button";
+    b.setAttribute("data-urgency", (job.urgency || "Standard").toLowerCase());
+    if (hot) b.classList.add("is-hot");
     b.setAttribute("aria-label", "Open job " + job.ref + ", " + job.customer);
     b.innerHTML =
       '<div class="job-top"><span class="job-ref">' + esc(job.ref) + "</span>" +
