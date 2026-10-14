@@ -1,6 +1,6 @@
 # Byrne's | QuoteFlow Alpha
 
-[![Deploy to GitHub Pages](https://github.com/gerardmcandrew-oss/byrne-quote-alpha/actions/workflows/deploy.yml/badge.svg)](https://github.com/gerardmcandrew-oss/byrne-quote-alpha/actions/workflows/deploy.yml)
+[![Deploy to GitHub Pages](https://github.com/gerardmcandrew-oss/gerardmcandrew-oss.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/gerardmcandrew-oss/gerardmcandrew-oss.github.io/actions/workflows/deploy.yml)
 ![Status: alpha](https://img.shields.io/badge/status-alpha-E09B2D)
 ![No build step](https://img.shields.io/badge/build-none%20required-16212E)
 ![Vanilla JS](https://img.shields.io/badge/stack-HTML%20%C2%B7%20CSS%20%C2%B7%20JS-2B6CB0)
@@ -11,7 +11,7 @@ classroom exercise at National College of Ireland.
 It does one thing: it gets a commercial job out of Gerry's tray and into a priced,
 approved quote, without taking the pricing decision away from him.
 
-**Live:** https://gerardmcandrew-oss.github.io/byrne-quote-alpha/
+**Live:** https://gerardmcandrew-oss.github.io/
 
 ![Gerry's tray on desktop: five commercial jobs waiting on a price, oldest first](docs/tray-desktop.png)
 
@@ -130,8 +130,8 @@ drifting with the real date.
 No build step, no dependencies, no API keys.
 
 ```bash
-git clone https://github.com/gerardmcandrew-oss/byrne-quote-alpha.git
-cd byrne-quote-alpha
+git clone https://github.com/gerardmcandrew-oss/gerardmcandrew-oss.github.io.git
+cd gerardmcandrew-oss.github.io
 python3 -m http.server 8000
 # open http://localhost:8000
 ```
